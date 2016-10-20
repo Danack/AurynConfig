@@ -41,13 +41,13 @@ class InjectorTest extends BaseTestCase
     public function testFromSharedObjects()
     {
         $injectionParams = InjectionParams::fromSharedObjects([
-            'AurynParamTest\Foo' => FooImplementation::create(),
-            'AurynParamTest\Bar' => Bar::create(),
+            'AurynConfigTest\Foo' => FooImplementation::create(),
+            'AurynConfigTest\Bar' => Bar::create(),
         ]);
         
         $fn = function (Foo $foo, Bar $bar) {
-            $this->assertInstanceOf('AurynParamTest\FooImplementation', $foo);
-            $this->assertInstanceOf('AurynParamTest\Bar', $bar);
+            $this->assertInstanceOf('AurynConfigTest\FooImplementation', $foo);
+            $this->assertInstanceOf('AurynConfigTest\Bar', $bar);
         };
 
         $injector = new Injector();
@@ -59,16 +59,16 @@ class InjectorTest extends BaseTestCase
     {
         $injectionParams = new InjectionParams(
             [],
-            ['AurynParamTest\Foo' => 'AurynParamTest\FooImplementation']
+            ['AurynConfigTest\Foo' => 'AurynConfigTest\FooImplementation']
         );
         $injectionParams->mergeSharedObjects([
-            'AurynParamTest\Foo' => FooImplementation::create(),
-            'AurynParamTest\Quux' => QuuxImplementation::create()
+            'AurynConfigTest\Foo' => FooImplementation::create(),
+            'AurynConfigTest\Quux' => QuuxImplementation::create()
         ]);
         
         $fn = function (Foo $foo, Quux $quux /*, Bar $bar */) {
-            $this->assertInstanceOf('AurynParamTest\FooImplementation', $foo);
-            $this->assertInstanceOf('AurynParamTest\Quux', $quux);
+            $this->assertInstanceOf('AurynConfigTest\FooImplementation', $foo);
+            $this->assertInstanceOf('AurynConfigTest\Quux', $quux);
         };
 
         $injector = new Injector();
@@ -80,12 +80,12 @@ class InjectorTest extends BaseTestCase
     {
         $injectionParams = new InjectionParams();
         $injectionParams->mergeSharedObjects([
-            'AurynParamTest\Quux' => QuuxImplementation::create(),
+            'AurynConfigTest\Quux' => QuuxImplementation::create(),
             
         ]);
         
         $fn = function (Quux $quux) {
-            $this->assertInstanceOf('AurynParamTest\Quux', $quux);
+            $this->assertInstanceOf('AurynConfigTest\Quux', $quux);
         };
         
         $injector = new Injector();
@@ -97,7 +97,7 @@ class InjectorTest extends BaseTestCase
     {
         $injectionParams = new InjectionParams();
         $injectionParams->mergeSharedObjects([
-            'AurynParamTest\Bar' => Bar::create(),
+            'AurynConfigTest\Bar' => Bar::create(),
         ]);
 
         $injector = new Injector();
@@ -108,7 +108,7 @@ class InjectorTest extends BaseTestCase
     {
         $injectionParams = new InjectionParams(
             [FooImplementation::create()],
-            ['AurynParamTest\Foo' => 'AurynParamTest\FooImplementation']
+            ['AurynConfigTest\Foo' => 'AurynConfigTest\FooImplementation']
         );
         $injectionParams->mergeSharedObjects([
         ]);
@@ -117,7 +117,7 @@ class InjectorTest extends BaseTestCase
         $injectionParams->addToInjector($injector);
         
         $fn = function (Foo $foo) {
-            $this->assertInstanceOf('AurynParamTest\Foo', $foo);
+            $this->assertInstanceOf('AurynConfigTest\Foo', $foo);
         };
 
         $injector = new Injector();
@@ -130,7 +130,7 @@ class InjectorTest extends BaseTestCase
         $injectionParams = new InjectionParams();
         $this->setExpectedException('Auryn\InjectorException');
         $injectionParams->mergeSharedObjects([
-            'AurynParamTest\Bar' => 'hello',
+            'AurynConfigTest\Bar' => 'hello',
         ]);
     }
 
@@ -138,11 +138,11 @@ class InjectorTest extends BaseTestCase
     {
         $injectionParams = new InjectionParams(
             [],
-            ['AurynParamTest\Foo' => 'AurynParamTest\FooImplementation']
+            ['AurynConfigTest\Foo' => 'AurynConfigTest\FooImplementation']
         );
         $this->setExpectedException('Auryn\InjectorException');
         $injectionParams->mergeSharedObjects([
-            'AurynParamTest\Foo' => 'hello',
+            'AurynConfigTest\Foo' => 'hello',
         ]);
     }
 }
