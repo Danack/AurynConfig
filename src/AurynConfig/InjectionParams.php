@@ -166,7 +166,6 @@ class InjectionParams
         }
 
         foreach ($this->classParams as $className => $params) {
-            
             if (is_string($params) === true) {
                 echo "hmm";
             }
