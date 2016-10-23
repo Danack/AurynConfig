@@ -30,6 +30,22 @@ class InjectionParams
     }
 
     /**
+     * @param array $vars
+     * @return static
+     */
+    public static function fromParams(array $vars)
+    {
+        return new static(
+            [],
+            [],
+            [],
+            [],
+            [],
+            $vars
+        );
+    }
+    
+    /**
      * @param $params
      * @return static
      */
@@ -47,6 +63,36 @@ class InjectionParams
         }
 
         return $instance;
+    }
+    
+    public function alias($original, $alias)
+    {
+        $this->aliases[$original] = $alias;
+    }
+    
+    public function share($classOrInstance)
+    {
+        $this->shares[] = $classOrInstance;
+    }
+    
+    public function defineNamedParam($paramName, $value)
+    {
+        $this->namedParams[$paramName] = $value;
+    }
+
+    public function delegate($className, $delegate)
+    {
+        $this->delegates[$className] = $delegate;
+    }
+    
+    public function defineClassParam($className, $params)
+    {
+        $this->classParams[$className] = $params;
+    }
+    
+    public function prepare($className, $prepareCallable)
+    {
+        $this->prepares[$className] = $prepareCallable;
     }
 
     /**
@@ -120,6 +166,11 @@ class InjectionParams
         }
 
         foreach ($this->classParams as $className => $params) {
+            
+            if (is_string($params) === true) {
+                echo "hmm";
+            }
+            
             $injector->define($className, $params);
         }
     }
